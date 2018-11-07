@@ -33,6 +33,7 @@
                 <configuration>
                     <port>8089</port>
                     <path>/</path>
+                    <uriEncoding>utf-8</uriEncoding>
                 </configuration>
             </plugin>
         </plugins>
