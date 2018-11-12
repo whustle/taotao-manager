@@ -1,7 +1,10 @@
 package com.taotao.service;
 
 import com.github.pagehelper.PageInfo;
+import com.taotao.common.util.TaotaoResult;
 import com.taotao.pojo.Item;
+
+import java.util.Map;
 
 /**
  * ItemServiceImpl class
@@ -11,5 +14,6 @@ import com.taotao.pojo.Item;
  */
 
 public interface ItemService {
-	PageInfo<Item> findItems(int pageNum,int pageSize);
+	Map<String,Object> findItems(int pageNum, int pageSize);
+	TaotaoResult saveItem(Item item,String desc,String itemParams);
 }
