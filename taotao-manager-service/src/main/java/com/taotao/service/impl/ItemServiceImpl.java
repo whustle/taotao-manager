@@ -70,4 +70,7 @@ public class ItemServiceImpl implements ItemService {
 		//插入数据
 		itemDescMapper.insert(itemDesc);
 	}
+	public void saveItemParam(){
+
+	}
 }

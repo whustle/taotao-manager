@@ -117,5 +117,4 @@ public interface ItemParamMapper {
      *
      * @mbggenerated
      */
-    int updateByPrimaryKey(ItemParam record);
 }
