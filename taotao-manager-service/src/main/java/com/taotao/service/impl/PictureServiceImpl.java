@@ -37,6 +37,7 @@ public class PictureServiceImpl implements PictureService {
 			String SuffixName = originalFilename.substring(originalFilename.lastIndexOf("."));
 			String newFileName=IDUtils.genImageName();
 			boolean result = FtpUtil.uploadFile(FTP_SERVER_IP, FTP_SERVER_PORT, FTP_SERVER_USERNAME, FTP_SERVER_PASSWORD, FILI_UPLOAD_PATH, filePath, newFileName, uploadFile.getInputStream());
+			System.out.println(result);
 			if(result){
 				String imageUrl=IMAGE_BASE_URL+filePath+"/"+newFileName;
 				map.put("error",0);
