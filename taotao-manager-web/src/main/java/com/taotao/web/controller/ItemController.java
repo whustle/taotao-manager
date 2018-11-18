@@ -3,6 +3,8 @@ package com.taotao.web.controller;
 import com.github.pagehelper.PageInfo;
 import com.taotao.common.util.TaotaoResult;
 import com.taotao.pojo.Item;
+import com.taotao.pojo.ItemDesc;
+import com.taotao.pojo.ItemParamItem;
 import com.taotao.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,8 +36,8 @@ public class ItemController {
 		return map;
 	}
 	@RequestMapping("/save")
-	public TaotaoResult saveItem(Item item,String desc){
-		TaotaoResult taotaoResult = itemService.saveItem(item, desc, null);
+	public TaotaoResult saveItem(Item item, ItemDesc itemDesc, ItemParamItem itemParamItem){
+		TaotaoResult taotaoResult = itemService.saveItem(item, itemDesc, itemParamItem);
 		return taotaoResult;
 	}
 }

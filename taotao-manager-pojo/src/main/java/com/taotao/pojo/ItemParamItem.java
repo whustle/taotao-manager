@@ -162,4 +162,15 @@ public class ItemParamItem {
     public void setParamData(String paramData) {
         this.paramData = paramData == null ? null : paramData.trim();
     }
+
+    @Override
+    public String toString() {
+        return "ItemParamItem{" +
+                "id=" + id +
+                ", itemId=" + itemId +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", paramData='" + paramData + '\'' +
+                '}';
+    }
 }

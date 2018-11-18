@@ -6,9 +6,11 @@ import com.taotao.common.util.IDUtils;
 import com.taotao.common.util.TaotaoResult;
 import com.taotao.mapper.ItemDescMapper;
 import com.taotao.mapper.ItemMapper;
+import com.taotao.mapper.ItemParamItemMapper;
 import com.taotao.pojo.Item;
 import com.taotao.pojo.ItemDesc;
 import com.taotao.pojo.ItemExample;
+import com.taotao.pojo.ItemParamItem;
 import com.taotao.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,8 @@ public class ItemServiceImpl implements ItemService {
 	private ItemMapper itemMapper;
 	@Autowired
 	private ItemDescMapper itemDescMapper;
+	@Autowired
+	private ItemParamItemMapper itemParamItemMapper;
 	@Override
 	public Map<String,Object> findItems(int pageNum, int pageSize) {
 		ItemExample itemExample = new ItemExample();
@@ -45,7 +49,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public TaotaoResult saveItem(Item item,String desc,String itemParams) {
+	public TaotaoResult saveItem(Item item, ItemDesc itemDesc, ItemParamItem itemParamItem) {
 		Date date = new Date();
 		//获得商品id
 		long id = IDUtils.genItemId();
@@ -56,21 +60,32 @@ public class ItemServiceImpl implements ItemService {
 		item.setCreated(date);
 		item.setUpdated(date);
 		itemMapper.insert(item);
-		saveItemDesc(id,date,desc);
-
+		saveItemDesc(id,date,itemDesc);
+        saveItemParamItem(id,date,itemParamItem);
 		return TaotaoResult.ok();
 	}
-	public void saveItemDesc(long id,Date date,String desc){
-		ItemDesc itemDesc = new ItemDesc();
+
+	public void saveItemDesc(long id,Date date,ItemDesc itemDesc){
 		//获得一个商品id
 		itemDesc.setItemId(id);
-		itemDesc.setItemDesc(desc);
 		itemDesc.setCreated(date);
 		itemDesc.setUpdated(date);
 		//插入数据
 		itemDescMapper.insert(itemDesc);
 	}
-	public void saveItemParam(){
 
+	public void saveItemParamItem(long itemId,Date date,ItemParamItem itemParamItem){
+		itemParamItem.setItemId(itemId);
+		itemParamItem.setCreated(date);
+		itemParamItem.setUpdated(date);
+		itemParamItemMapper.insert(itemParamItem);
+	}
+	@Override
+	public TaotaoResult updateItemsStatus(List ids,Item item) {
+		ItemExample itemExample = new ItemExample();
+		ItemExample.Criteria criteria = itemExample.createCriteria();
+		criteria.andIdIn(ids);
+		itemMapper.updateByExampleSelective(item,itemExample);
+		return TaotaoResult.ok();
 	}
 }

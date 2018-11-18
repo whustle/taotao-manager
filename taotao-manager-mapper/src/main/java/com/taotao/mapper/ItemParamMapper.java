@@ -117,4 +117,5 @@ public interface ItemParamMapper {
      *
      * @mbggenerated
      */
+    List findItemParamAndItemCat();
 }

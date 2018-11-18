@@ -14,10 +14,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class PictureServiceImpl implements PictureService {
-	@Value("${IMAGE_BASE_URL}")
-	private String IMAGE_BASE_URL;
+
 	@Value("${FILI_UPLOAD_PATH}")
 	private String FILI_UPLOAD_PATH;
+	@Value("${IMAGE_BASE_URL}")
+	private String IMAGE_BASE_URL;
 	@Value("${FTP_SERVER_IP}")
 	private String FTP_SERVER_IP;
 	@Value("${FTP_SERVER_PORT}")
@@ -28,26 +29,27 @@ public class PictureServiceImpl implements PictureService {
 	private String FTP_SERVER_PASSWORD;
 	@Override
 	public Map<String, Object> uploadPicture(MultipartFile uploadFile) {
-		if(uploadFile.isEmpty())
-			return null;
 		ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
 		try {
 			String filePath=new DateTime().toString("/yyyy/MM/dd");
 			String originalFilename = uploadFile.getOriginalFilename();
-			String SuffixName = originalFilename.substring(originalFilename.lastIndexOf("."));
-			String newFileName=IDUtils.genImageName();
+			String suffixName = originalFilename.substring(originalFilename.lastIndexOf("."));
+			String newFileName=IDUtils.genImageName()+suffixName;
 			boolean result = FtpUtil.uploadFile(FTP_SERVER_IP, FTP_SERVER_PORT, FTP_SERVER_USERNAME, FTP_SERVER_PASSWORD, FILI_UPLOAD_PATH, filePath, newFileName, uploadFile.getInputStream());
-			System.out.println(result);
-			if(result){
-				String imageUrl=IMAGE_BASE_URL+filePath+"/"+newFileName;
-				map.put("error",0);
-				map.put("url",imageUrl);
+			if(!result){
+				map.put("error",1);
+				map.put("message","图片上传失败");
+				return map;
 			}
-			map.put("error",1);
-			map.put("message","图片上传失败");
+			String imageUrl=IMAGE_BASE_URL+filePath+"/"+newFileName;
+			map.put("error",0);
+			map.put("url",imageUrl);
+			return map;
 		} catch (IOException e) {
 			e.printStackTrace();
+			map.put("error",1);
+			map.put("message","图片上传出现异常");
+			return map;
 		}
-		return map;
 	}
 }

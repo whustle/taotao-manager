@@ -328,4 +328,8 @@
       updated = #{updated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="findItemParamAndItemCat" resultType="Map">
+    select p.id,p.param_data paramData,p.created,p.updated,c.id itemCatId,c.name itemCatName from tb_item_cat c,tb_item_param p where c.id=p.item_cat_id
+  </select>
+
 </mapper>

@@ -4,9 +4,10 @@ import com.taotao.common.util.TaotaoResult;
 import com.taotao.pojo.ItemParam;
 import com.taotao.service.ItemParamService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * ItemParamController class
@@ -27,6 +28,17 @@ public class ItemParamController {
 	@RequestMapping("/save/{itemCatId}")
 	public TaotaoResult insertItemParam(@PathVariable long itemCatId, ItemParam itemParam ){
 		TaotaoResult taotaoResult = itemParamService.insertItemParam(itemCatId, itemParam);
+		return taotaoResult;
+	}
+	@RequestMapping("/list")
+	public Map<String,Object> getItemParamList(@RequestParam("page")int pageNum,@RequestParam("rows")int pageSize){
+		Map<String, Object> itemParamList = itemParamService.getItemParamList(pageNum, pageSize);
+		return itemParamList;
+	}
+	@RequestMapping("/delete")
+	public TaotaoResult deleteItems(@RequestBody @RequestParam("ids") List ids){
+		System.out.println(ids);
+		TaotaoResult taotaoResult = itemParamService.deleteItemParams(ids);
 		return taotaoResult;
 	}
 }

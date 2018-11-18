@@ -63,13 +63,17 @@
         	$.messager.confirm('确认','确定删除ID为 '+ids+' 的商品规格吗？',function(r){
         	    if (r){
         	    	var params = {"ids":ids};
-                	$.post("/item/param/delete",params, function(data){
+                	$.ajax({
+                        url:"/item/param/delete",
+                        data:params,
+                        contentType:"application/json",
+                        success:function(data){
             			if(data.status == 200){
             				$.messager.alert('提示','删除商品规格成功!',undefined,function(){
             					$("#itemParamList").datagrid("reload");
             				});
             			}
-            		});
+            		}});
         	    }
         	});
         }
