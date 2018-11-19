@@ -23,6 +23,7 @@ public class ContentCatServiceImpl implements ContentCatService {
 		ContentCategoryExample contentCategoryExample = new ContentCategoryExample();
 		ContentCategoryExample.Criteria criteria = contentCategoryExample.createCriteria();
 		criteria.andParentIdEqualTo(parentId);
+		criteria.andStatusEqualTo(1);
 		List<ContentCategory> contentCategories = contentCategoryMapper.selectByExample(contentCategoryExample);
 		CopyOnWriteArrayList<Map<String,Object>> list = new CopyOnWriteArrayList<>();
 		for (ContentCategory contentCat:contentCategories
@@ -70,6 +71,12 @@ public class ContentCatServiceImpl implements ContentCatService {
 		contentCategory.setId(id);
 		contentCategory.setStatus(2);
 		contentCategoryMapper.updateByPrimaryKeySelective(contentCategory);
-
+		List<Map<String, Object>> contentCatList = getContentCatList(parentId);
+		if(contentCatList.size()==0){
+			ContentCategory contentCategory1 = new ContentCategory();
+			contentCategory1.setId(parentId);
+			contentCategory1.setIsParent(false);
+			contentCategoryMapper.updateByPrimaryKeySelective(contentCategory1);
+		}
 	}
 }

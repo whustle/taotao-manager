@@ -22,12 +22,16 @@ public class ContentCatController {
 	}
 	@RequestMapping("/create")
 	public TaotaoResult createContentCat(long parentId,String name){
-		return null;
+		TaotaoResult tataoResult= contentCatService.createContentCat(parentId, name);
+		return tataoResult;
 	}
 	@RequestMapping("/update")
 	public void updateContentCat(long id,String name){
+		contentCatService.updateContentCat(id,name);
 	}
 	@RequestMapping("/delete")
-	public void deleteContentCat(long parentId,long id){
+	public void deleteContentCat(Long parentId,Long id){
+		System.out.println(parentId+ " "+id);
+		contentCatService.deleteContentCat(parentId, id);
 	}
 }
